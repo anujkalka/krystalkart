@@ -1,0 +1,1070 @@
+<!doctype html>
+<html lang="en" data-world="craft">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KrystalKart</title>
+<meta name="description" content="KrystalKart — handcrafted brass idols and huggable soft toys, in two worlds.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marcellus&family=Spectral:ital,wght@0,300;0,400;0,600;1,300&family=Barlow+Condensed:wght@500;600&family=Baloo+2:wght@500;700;800&family=Nunito:wght@400;600;700;800&display=swap">
+<style>
+/* ===========================================================
+   KrystalKart — one page, two committed brand worlds.
+   Palettes are deliberate and fixed per world (no OS theme
+   following); every surface and text colour is painted.
+   =========================================================== */
+
+*, *::before, *::after { box-sizing: border-box; }
+html, body, h1, h2, h3, h4, p, figure, ul, ol, li, blockquote { margin: 0; padding: 0; }
+ul, ol { list-style: none; }
+img, svg { display: block; max-width: 100%; }
+button, input, textarea, select { font: inherit; color: inherit; }
+
+/* ---------- WORLD 1 · HANDICRAFT (default tokens) ---------- */
+:root {
+  --ground:      #102A24;
+  --ground-deep: #0B1E1A;
+  --surface:     #17352D;
+  --surface-2:   #1E4238;
+  --line:        #2E5A4C;
+  --ink:         #F1E8D6;
+  --ink-soft:    #B9C7BC;
+  --accent:      #F0A828;
+  --accent-ink:  #2A1B06;
+  --accent-2:    #9E2B25;
+  --metal-a:     #8C5B1E;
+  --metal-b:     #E7B75C;
+  --metal-c:     #FBEBC0;
+  --halo:        rgba(240,168,40,.16);
+
+  --font-display: "Marcellus", "Iowan Old Style", Georgia, serif;
+  --font-body:    "Spectral", Georgia, "Times New Roman", serif;
+  --font-label:   "Barlow Condensed", "Helvetica Neue", Arial, sans-serif;
+
+  --label-tracking: .16em;
+  --label-weight: 600;
+  --card-radius: 130px 130px 10px 10px / 90px 90px 10px 10px;
+  --figure-radius: 118px 118px 6px 6px / 82px 82px 6px 6px;
+  --btn-radius: 2px;
+  --pill-radius: 2px;
+  --card-shadow: 0 22px 44px -28px rgba(0,0,0,.85);
+  --card-lift: -6px;
+  --tilt: 0deg;
+
+  --page: 1180px;
+  --gutter: clamp(18px, 5vw, 56px);
+  --s1: 8px;  --s2: 14px; --s3: 22px; --s4: 34px;
+  --s5: 52px; --s6: 78px; --s7: 112px;
+}
+
+/* ---------- WORLD 2 · SOFT TOYS ---------- */
+:root[data-world="toys"] {
+  --ground:      #FFF6EC;
+  --ground-deep: #FFEBDA;
+  --surface:     #FFFFFF;
+  --surface-2:   #FFF0F5;
+  --line:        #F2D8C8;
+  --ink:         #3B2742;
+  --ink-soft:    #7A6480;
+  --accent:      #FF5D96;
+  --accent-ink:  #FFFFFF;
+  --accent-2:    #6C7BFF;
+  --metal-a:     #37C9A3;
+  --metal-b:     #FFC23C;
+  --metal-c:     #8FD8FF;
+  --halo:        rgba(255,93,150,.14);
+
+  --font-display: "Baloo 2", "Trebuchet MS", sans-serif;
+  --font-body:    "Nunito", "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-label:   "Nunito", "Segoe UI", Helvetica, Arial, sans-serif;
+
+  --label-tracking: .1em;
+  --label-weight: 800;
+  --card-radius: 30px;
+  --figure-radius: 20px;
+  --btn-radius: 999px;
+  --pill-radius: 999px;
+  --card-shadow: 7px 8px 0 #3B2742;
+  --card-lift: -8px;
+  --tilt: -1.2deg;
+}
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color .5s ease, color .5s ease;
+  overflow-x: hidden;
+}
+:root[data-world="toys"] body { font-size: 16.5px; line-height: 1.7; }
+
+h1, h2, h3, .display { font-family: var(--font-display); font-weight: 400; text-wrap: balance; line-height: 1.1; }
+:root[data-world="toys"] h1,
+:root[data-world="toys"] h2,
+:root[data-world="toys"] h3,
+:root[data-world="toys"] .display { font-weight: 800; letter-spacing: -.01em; }
+
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+
+.wrap { width: min(var(--page), 100%); margin-inline: auto; padding-inline: var(--gutter); }
+.stack { display: flex; flex-direction: column; }
+
+.label {
+  font-family: var(--font-label);
+  font-weight: var(--label-weight);
+  letter-spacing: var(--label-tracking);
+  text-transform: uppercase;
+  font-size: 13px;
+  color: var(--accent);
+}
+
+/* ---------- buttons ---------- */
+.btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 14px 26px;
+  border: 1px solid transparent;
+  border-radius: var(--btn-radius);
+  font-family: var(--font-label);
+  font-weight: var(--label-weight);
+  letter-spacing: var(--label-tracking);
+  text-transform: uppercase;
+  font-size: 14px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform .18s ease, background-color .2s ease, color .2s ease, box-shadow .2s ease;
+}
+.btn-solid { background: var(--accent); color: var(--accent-ink); }
+.btn-ghost { background: transparent; color: var(--ink); border-color: var(--line); }
+.btn:hover { transform: translateY(-2px); }
+:root[data-world="toys"] .btn { box-shadow: 4px 5px 0 var(--ink); }
+:root[data-world="toys"] .btn:hover { box-shadow: 2px 3px 0 var(--ink); transform: translateY(2px); }
+:root[data-world="toys"] .btn-ghost { background: var(--surface); border-color: var(--ink); }
+
+/* ---------- world switch (the two buttons) ---------- */
+.switch {
+  display: inline-flex;
+  padding: 4px;
+  gap: 4px;
+  border: 1px solid var(--line);
+  border-radius: var(--btn-radius);
+  background: var(--surface);
+  background: color-mix(in srgb, var(--surface) 80%, transparent);
+}
+:root[data-world="toys"] .switch { border-width: 2px; border-color: var(--ink); box-shadow: 4px 5px 0 var(--ink); }
+.switch button {
+  border: 0; background: transparent; cursor: pointer;
+  padding: 9px 18px;
+  border-radius: calc(var(--btn-radius) - 1px);
+  font-family: var(--font-label);
+  font-weight: var(--label-weight);
+  letter-spacing: var(--label-tracking);
+  text-transform: uppercase;
+  font-size: 13px;
+  color: var(--ink-soft);
+  white-space: nowrap;
+  transition: background-color .25s ease, color .25s ease;
+}
+.switch button:hover { color: var(--ink); }
+.switch button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); }
+
+/* ---------- header ---------- */
+.site-head {
+  position: sticky; top: 0; z-index: 40;
+  background: var(--ground);
+  background: color-mix(in srgb, var(--ground) 92%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+  transition: background-color .5s ease, border-color .5s ease;
+}
+.site-head .bar {
+  display: flex; align-items: center; gap: var(--s3);
+  min-height: 76px;
+  justify-content: space-between;
+}
+.brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+.brand .mark { width: 38px; height: 38px; flex: none; }
+.brand .name { font-family: var(--font-display); font-size: 25px; letter-spacing: .01em; }
+:root[data-world="toys"] .brand .name { font-weight: 800; }
+.brand .name em { font-style: normal; color: var(--accent); }
+.nav { display: flex; gap: var(--s3); align-items: center; }
+.nav a {
+  text-decoration: none; font-family: var(--font-label);
+  font-weight: var(--label-weight); letter-spacing: var(--label-tracking);
+  text-transform: uppercase; font-size: 13px; color: var(--ink-soft);
+}
+.nav a:hover { color: var(--accent); }
+@media (max-width: 900px) { .nav { display: none; } }
+@media (max-width: 560px) {
+  .site-head .bar { gap: var(--s2); min-height: 66px; }
+  .brand .mark { width: 32px; height: 32px; }
+  .brand .name { font-size: 20px; }
+  .switch button { padding: 8px 11px; font-size: 12px; letter-spacing: .08em; }
+}
+
+/* ---------- door / chooser splash ---------- */
+.doors {
+  position: fixed; inset: 0; z-index: 100;
+  display: grid; grid-template-columns: 1fr 1fr;
+  opacity: 1; visibility: visible;
+  transition: opacity .55s ease, visibility .55s ease;
+}
+.doors[hidden] { display: grid; opacity: 0; visibility: hidden; pointer-events: none; }
+.door {
+  position: relative; border: 0; cursor: pointer;
+  display: flex; flex-direction: column; justify-content: flex-end; align-items: center;
+  gap: 10px; padding: 0 24px 12vh; text-align: center;
+  transition: flex-grow .5s ease, filter .5s ease;
+  overflow: hidden;
+}
+.door-craft {
+  --metal-a: #8C5B1E; --metal-b: #E7B75C; --metal-c: #FBEBC0; --ground: #102A24; --accent: #F0A828;
+  background: radial-gradient(120% 90% at 50% 18%, #1B4438 0%, #102A24 55%, #081814 100%); color: #F1E8D6; }
+.door-toys {
+  --accent: #FF5D96;
+  background: radial-gradient(120% 90% at 50% 18%, #FFFFFF 0%, #FFF3E4 50%, #FFE3EF 100%); color: #3B2742; }
+.door .door-art { position: absolute; inset: 0; display: grid; place-items: center; padding-bottom: 14vh; }
+.door .door-art svg { width: min(46%, 300px); height: auto; }
+.door-kicker { font-family: var(--font-label); text-transform: uppercase; letter-spacing: .22em; font-size: 12px; opacity: .7; position: relative; }
+.door-title { font-family: "Marcellus", Georgia, serif; font-size: clamp(30px, 4.4vw, 52px); position: relative; }
+.door-toys .door-title { font-family: "Baloo 2", sans-serif; font-weight: 800; }
+.door-sub { font-size: 15px; max-width: 30ch; opacity: .78; position: relative; }
+.door-go {
+  margin-top: 14px; position: relative;
+  font-family: var(--font-label); text-transform: uppercase; letter-spacing: .16em; font-size: 13px; font-weight: 600;
+  padding: 12px 24px; border-radius: 2px;
+}
+.door-craft .door-go { background: #F0A828; color: #2A1B06; }
+.door-toys  .door-go { background: #FF5D96; color: #fff; border-radius: 999px; font-weight: 800; box-shadow: 4px 5px 0 #3B2742; }
+.door:hover { filter: brightness(1.07); }
+@media (min-width: 720px) { .door:hover { flex-grow: 1.16; } .doors { grid-auto-columns: 1fr; } }
+@media (max-width: 719px) { .doors { grid-template-columns: 1fr; grid-template-rows: 1fr 1fr; } .door { padding-bottom: 6vh; } }
+.doors-brand {
+  position: absolute; top: 26px; left: 50%; transform: translateX(-50%); z-index: 2;
+  font-family: "Marcellus", Georgia, serif; font-size: 15px; letter-spacing: .34em;
+  text-transform: uppercase; color: #F1E8D6; background: #0B1E1A;
+  padding: 9px 20px 8px; border: 1px solid #F0A828; white-space: nowrap;
+}
+
+/* ---------- world panels ---------- */
+.world { display: none; }
+.world.is-active { display: block; animation: rise .5s cubic-bezier(.2,.7,.3,1) both; }
+@keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+/* ---------- hero ---------- */
+.hero { position: relative; overflow: hidden; }
+.hero-inner {
+  display: grid; gap: var(--s5);
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr);
+  align-items: center;
+  padding-block: clamp(44px, 7vw, 88px) clamp(30px, 5vw, 66px);
+}
+@media (max-width: 900px) { .hero-inner { grid-template-columns: 1fr; } }
+.hero-copy { display: flex; flex-direction: column; gap: var(--s3); align-items: flex-start; max-width: 46ch; }
+.hero h1 { font-size: clamp(38px, 5.4vw, 66px); }
+.hero h1 .tint { color: var(--accent); }
+.hero p.lede { font-size: clamp(17px, 1.6vw, 20px); color: var(--ink-soft); max-width: 46ch; }
+:root[data-world="craft"] .hero p.lede { font-style: italic; font-weight: 300; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: var(--s2); }
+.hero-facts { display: flex; flex-wrap: wrap; gap: var(--s4); margin-top: var(--s2); }
+.hero-facts div { display: flex; flex-direction: column; }
+.hero-facts b { font-family: var(--font-display); font-size: 27px; font-weight: 400; color: var(--ink); }
+:root[data-world="toys"] .hero-facts b { font-weight: 800; }
+.hero-facts span { font-family: var(--font-label); text-transform: uppercase; letter-spacing: var(--label-tracking); font-size: 12px; color: var(--ink-soft); }
+
+.hero-art { position: relative; display: grid; place-items: center; min-height: 340px; }
+.hero-art .glow { position: absolute; width: 108%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, var(--halo) 0%, transparent 68%); }
+.hero-art > div { position: relative; width: min(100%, 430px); }
+.hero-art svg { width: 100%; height: auto; }
+
+/* craft-only torana backdrop */
+.hero-blobs { position: absolute; inset: 0; pointer-events: none; }
+:root[data-world="craft"] .hero-blobs { display: none; }
+
+/* ---------- sections ---------- */
+.section { padding-block: clamp(52px, 7vw, 96px); }
+.section-alt { background: var(--ground-deep); }
+.section-head { display: flex; flex-direction: column; gap: var(--s2); margin-bottom: var(--s5); max-width: 62ch; }
+.section-head h2 { font-size: clamp(30px, 3.8vw, 44px); }
+.section-head p { color: var(--ink-soft); }
+.rule { width: 64px; height: 2px; background: linear-gradient(90deg, var(--metal-b), transparent); }
+:root[data-world="toys"] .rule { height: 6px; width: 52px; border-radius: 999px; background: var(--accent); }
+
+/* ---------- product grid ---------- */
+.grid { display: grid; gap: clamp(18px, 2.4vw, 30px); grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }
+.card {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--card-radius);
+  padding: 18px 18px 22px;
+  display: flex; flex-direction: column; gap: 10px;
+  box-shadow: var(--card-shadow);
+  transition: transform .25s cubic-bezier(.2,.7,.3,1), box-shadow .25s ease, border-color .25s ease;
+}
+:root[data-world="toys"] .card { border-width: 2.5px; border-color: var(--ink); }
+:root[data-world="toys"] .card:nth-child(even) { transform: rotate(var(--tilt)); }
+:root[data-world="toys"] .card:nth-child(3n) { transform: rotate(calc(var(--tilt) * -1.4)); }
+.card:hover { transform: translateY(var(--card-lift)); border-color: var(--accent); }
+:root[data-world="toys"] .card:hover { transform: translateY(var(--card-lift)) rotate(0deg); box-shadow: 10px 12px 0 var(--ink); }
+.card figure {
+  aspect-ratio: 1 / 1; display: grid; place-items: center; overflow: hidden;
+  border-radius: var(--figure-radius);
+  background: radial-gradient(circle at 50% 42%, var(--surface-2) 0%, var(--surface) 72%);
+}
+:root[data-world="toys"] .card figure { background: var(--surface-2); }
+.card figure img { width: 100%; height: 100%; object-fit: cover; }
+.card h3 { font-size: 20px; }
+.card .spec { font-size: 14px; color: var(--ink-soft); }
+.card .meta { margin-top: auto; display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.card .price { font-family: var(--font-label); font-weight: var(--label-weight); letter-spacing: .04em; font-size: 17px; color: var(--accent); font-variant-numeric: tabular-nums; }
+.card .spec { font-size: 14px; color: var(--ink-soft); }
+.badge {
+  position: absolute; top: 12px; left: 50%; transform: translateX(-50%); z-index: 2;
+  white-space: nowrap;
+  font-family: var(--font-label); font-weight: var(--label-weight);
+  text-transform: uppercase; letter-spacing: var(--label-tracking); font-size: 11px;
+  padding: 5px 10px; border-radius: var(--pill-radius);
+  background: var(--accent-2); color: #fff;
+}
+:root[data-world="toys"] .badge { top: 14px; left: auto; right: 14px; transform: rotate(4deg); border: 2px solid var(--ink); box-shadow: 3px 3px 0 var(--ink); }
+
+/* ---------- feature strip ---------- */
+.features { display: grid; gap: var(--s3); grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); }
+.feature { display: flex; flex-direction: column; gap: 8px; padding: var(--s3); border: 1px solid var(--line); border-radius: var(--btn-radius); background: var(--surface); }
+:root[data-world="toys"] .feature { border-width: 2.5px; border-color: var(--ink); border-radius: 24px; box-shadow: 5px 6px 0 var(--ink); }
+.feature svg { width: 34px; height: 34px; }
+.feature h3 { font-size: 19px; }
+.feature p { font-size: 15px; color: var(--ink-soft); }
+
+/* ---------- collections / sizes ---------- */
+.tiles { display: grid; gap: var(--s3); grid-template-columns: repeat(auto-fit, minmax(212px, 1fr)); }
+.tile {
+  position: relative; overflow: hidden; min-height: 152px;
+  display: flex; flex-direction: column; justify-content: flex-end; gap: 4px;
+  padding: var(--s3); text-decoration: none;
+  border: 1px solid var(--line); border-radius: var(--btn-radius);
+  background: linear-gradient(160deg, var(--surface-2), var(--surface));
+  transition: border-color .25s ease, transform .25s ease;
+}
+:root[data-world="toys"] .tile { border-width: 2.5px; border-color: var(--ink); border-radius: 26px; box-shadow: 6px 7px 0 var(--ink); }
+.tile:hover { border-color: var(--accent); transform: translateY(-4px); }
+.tile h3 { font-size: 22px; position: relative; z-index: 1; }
+.tile span { font-size: 14px; color: var(--ink-soft); position: relative; z-index: 1; }
+.tile-art { position: absolute; z-index: 0; right: -14px; top: -18px; width: 116px; opacity: .9; pointer-events: none; }
+
+/* ---------- quotes ---------- */
+.quotes { display: grid; gap: var(--s3); grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.quote { padding: var(--s3); border-left: 2px solid var(--accent); background: var(--surface); }
+:root[data-world="toys"] .quote { border-left: 0; border: 2.5px dashed var(--accent); border-radius: 24px; }
+.quote p { font-size: 16px; }
+:root[data-world="craft"] .quote p { font-style: italic; }
+.quote cite { display: block; margin-top: 10px; font-style: normal; font-family: var(--font-label); text-transform: uppercase; letter-spacing: var(--label-tracking); font-size: 12px; color: var(--ink-soft); }
+
+/* ---------- contact ---------- */
+.contact-grid { display: grid; gap: var(--s5); grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); align-items: start; }
+@media (max-width: 860px) { .contact-grid { grid-template-columns: 1fr; } }
+.contact-lines { display: flex; flex-direction: column; gap: var(--s3); }
+.contact-lines a { text-decoration: none; }
+.contact-line { display: flex; gap: 12px; align-items: flex-start; }
+.contact-line svg { width: 22px; height: 22px; flex: none; margin-top: 4px; }
+.contact-line b { display: block; font-family: var(--font-label); text-transform: uppercase; letter-spacing: var(--label-tracking); font-size: 12px; color: var(--ink-soft); font-weight: var(--label-weight); }
+.form { display: grid; gap: var(--s2); }
+.form .btn { justify-self: start; }
+.form .row { display: grid; gap: var(--s2); grid-template-columns: 1fr 1fr; }
+@media (max-width: 560px) { .form .row { grid-template-columns: 1fr; } }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field label { font-family: var(--font-label); text-transform: uppercase; letter-spacing: var(--label-tracking); font-size: 12px; color: var(--ink-soft); font-weight: var(--label-weight); }
+.field input, .field textarea, .field select {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--btn-radius); padding: 12px 14px; font-size: 16px; font-family: var(--font-body);
+}
+:root[data-world="toys"] .field input,
+:root[data-world="toys"] .field textarea,
+:root[data-world="toys"] .field select { border-width: 2.5px; border-color: var(--ink); border-radius: 16px; }
+.field textarea { min-height: 118px; resize: vertical; }
+.form-note { font-size: 14px; color: var(--ink-soft); }
+.form-status { font-size: 15px; color: var(--accent); min-height: 1.4em; }
+
+/* ---------- footer ---------- */
+.site-foot { border-top: 1px solid var(--line); background: var(--ground-deep); padding-block: var(--s5); }
+.foot-grid { display: flex; flex-wrap: wrap; gap: var(--s4); justify-content: space-between; align-items: center; }
+.foot-grid p { font-size: 14px; color: var(--ink-soft); }
+.foot-links { display: flex; gap: var(--s3); flex-wrap: wrap; }
+.foot-links button { background: none; border: 0; cursor: pointer; font-family: var(--font-label); text-transform: uppercase; letter-spacing: var(--label-tracking); font-size: 13px; color: var(--ink-soft); font-weight: var(--label-weight); }
+.foot-links button:hover { color: var(--accent); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+</style>
+</head>
+<body>
+<script>document.documentElement.setAttribute("data-world","craft");</script>
+
+<!-- ============ CHOOSER: the two buttons ============ -->
+<div class="doors" id="doors" role="dialog" aria-label="Choose a KrystalKart world">
+  <span class="doors-brand">KrystalKart</span>
+
+  <button class="door door-craft" data-go="craft">
+    <span class="door-art" id="door-art-craft" aria-hidden="true"></span>
+    <span class="door-kicker">World One</span>
+    <span class="door-title">Handicraft</span>
+    <span class="door-sub">Brass idols, cast by hand in Moradabad and finished the old way.</span>
+    <span class="door-go">Enter the atelier</span>
+  </button>
+
+  <button class="door door-toys" data-go="toys">
+    <span class="door-art" id="door-art-toys" aria-hidden="true"></span>
+    <span class="door-kicker">World Two</span>
+    <span class="door-title">Soft Toys</span>
+    <span class="door-sub">Squishy, safe and sized for the biggest hugs in the house.</span>
+    <span class="door-go">Come and play</span>
+  </button>
+</div>
+
+<!-- ============ HEADER ============ -->
+<header class="site-head">
+  <div class="wrap bar">
+    <a class="brand" href="#top">
+      <svg class="mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+        <path d="M20 3l14 8v18l-14 8-14-8V11z" stroke="currentColor" stroke-width="1.6" opacity=".45"/>
+        <path d="M20 10l8 5v10l-8 5-8-5V15z" fill="var(--accent)"/>
+      </svg>
+      <span class="name">Krystal<em>Kart</em></span>
+    </a>
+
+    <nav class="nav" aria-label="Section">
+      <a href="#" data-jump="shop">Shop</a>
+      <a href="#" data-jump="story">Our story</a>
+      <a href="#" data-jump="contact">Contact</a>
+    </nav>
+
+    <div class="switch" role="group" aria-label="Choose collection">
+      <button type="button" data-go="craft" aria-pressed="true">Handicraft</button>
+      <button type="button" data-go="toys" aria-pressed="false">Soft Toys</button>
+    </div>
+  </div>
+</header>
+
+<span id="top"></span>
+
+<!-- ============ WORLD 1 · HANDICRAFT ============ -->
+<main class="world is-active" id="world-craft">
+  <section class="hero">
+    <div class="wrap hero-inner">
+      <div class="hero-copy">
+        <span class="label">Handcrafted brass &amp; metal</span>
+        <h1>Cast in brass.<br>Kept for <span class="tint">generations.</span></h1>
+        <p class="lede">Every idol is sand-cast, filed and hand-polished by artisan families who have worked the same metal for four decades. No two pieces carry the same fingerprints.</p>
+        <div class="hero-actions">
+          <a class="btn btn-solid" href="#" data-jump="shop">See the collection</a>
+          <a class="btn btn-ghost" href="#" data-jump="contact">Enquire about bulk gifting</a>
+        </div>
+        <div class="hero-facts">
+          <div><b>40+</b><span>Years of craft</span></div>
+          <div><b>100%</b><span>Solid brass</span></div>
+          <div><b>Pan-India</b><span>Insured delivery</span></div>
+        </div>
+      </div>
+      <div class="hero-art"><span class="glow"></span><div id="hero-craft-art"></div></div>
+    </div>
+  </section>
+
+  <section class="section" data-sec="shop">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="rule"></span>
+        <span class="label">The collection</span>
+        <h2>Idols and objects for the home mandir</h2>
+        <p>Sizes run from palm-sized travel murtis to nine-inch centrepieces. Each piece ships in a lined gift box with a care cloth.</p>
+      </div>
+      <div class="grid" id="grid-craft"></div>
+    </div>
+  </section>
+
+  <section class="section section-alt" data-sec="story">
+    <div class="wrap stack" style="gap: var(--s5)">
+      <div class="section-head" style="margin-bottom:0">
+        <span class="rule"></span>
+        <span class="label">Why KrystalKart</span>
+        <h2>The old process, kept on purpose</h2>
+      </div>
+      <div class="features">
+        <div class="feature">
+          <svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M6 22l10-16 10 16z" stroke="var(--accent)" stroke-width="1.8"/><path d="M11 22h10" stroke="var(--accent)" stroke-width="1.8"/></svg>
+          <h3>Sand-cast, never machine-stamped</h3>
+          <p>Molten brass poured into hand-packed moulds, which is why the detailing holds its depth.</p>
+        </div>
+        <div class="feature">
+          <svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><circle cx="16" cy="16" r="10" stroke="var(--accent)" stroke-width="1.8"/><path d="M16 6v20M6 16h20" stroke="var(--accent)" stroke-width="1.2" opacity=".6"/></svg>
+          <h3>Weighed and marked</h3>
+          <p>Actual weight and height are printed on every box, so you know exactly what arrives.</p>
+        </div>
+        <div class="feature">
+          <svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M16 5l3.6 7.3 8 1.2-5.8 5.6 1.4 8-7.2-3.8-7.2 3.8 1.4-8-5.8-5.6 8-1.2z" stroke="var(--accent)" stroke-width="1.6"/></svg>
+          <h3>Lacquer-free finish</h3>
+          <p>Polished to an antique or mirror finish you can re-shine at home with tamarind and salt.</p>
+        </div>
+        <div class="feature">
+          <svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><rect x="6" y="11" width="20" height="15" stroke="var(--accent)" stroke-width="1.8"/><path d="M6 16h20M16 11v15M11 11c0-4 5-6 5-1 0-5 5-3 5 1" stroke="var(--accent)" stroke-width="1.6"/></svg>
+          <h3>Corporate &amp; wedding gifting</h3>
+          <p>Bulk orders from 25 pieces, with custom engraving and branded packaging.</p>
+        </div>
+      </div>
+      <div class="quotes">
+        <blockquote class="quote"><p>“Ordered the nine-inch Nataraja for our office reception. The weight alone tells you it is the real thing.”</p><cite>Meera R. — Pune</cite></blockquote>
+        <blockquote class="quote"><p>“We gave 60 Ganesh idols as Diwali gifts. Packed beautifully, and not one arrived scratched.”</p><cite>Aditya K. — Gurugram</cite></blockquote>
+        <blockquote class="quote"><p>“The antique finish is exactly like the photo. My mother thought it was my grandmother’s old one.”</p><cite>Shalini D. — Kochi</cite></blockquote>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" data-sec="contact">
+    <div class="wrap contact-grid">
+      <div class="contact-lines">
+        <div class="section-head" style="margin-bottom:0">
+          <span class="rule"></span>
+          <span class="label">Contact us</span>
+          <h2>Talk to us about a piece</h2>
+          <p>Tell us the deity, the height and the finish you are after — we will send photographs of what is in stock before you pay.</p>
+        </div>
+        <a class="contact-line" href="https://wa.me/919000000000">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 20l1.4-4A8 8 0 1 1 8 18.6z" stroke="var(--accent)" stroke-width="1.7"/></svg>
+          <span><b>WhatsApp</b>+91 90000 00000</span>
+        </a>
+        <a class="contact-line" href="mailto:hello@krystalkart.in">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="5" width="18" height="14" stroke="var(--accent)" stroke-width="1.7"/><path d="M3 7l9 6 9-6" stroke="var(--accent)" stroke-width="1.7"/></svg>
+          <span><b>Email</b>hello@krystalkart.in</span>
+        </a>
+        <div class="contact-line">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11z" stroke="var(--accent)" stroke-width="1.7"/><circle cx="12" cy="10" r="2.6" stroke="var(--accent)" stroke-width="1.7"/></svg>
+          <span><b>Workshop</b>Peetal Nagri, Moradabad, Uttar Pradesh</span>
+        </div>
+      </div>
+      <form class="form" data-form="craft">
+        <div class="row">
+          <div class="field"><label for="c-name">Your name</label><input id="c-name" name="name" required autocomplete="name"></div>
+          <div class="field"><label for="c-phone">Phone or email</label><input id="c-phone" name="contact" required></div>
+        </div>
+        <div class="field">
+          <label for="c-interest">What are you looking for?</label>
+          <select id="c-interest" name="interest">
+            <option>A single idol for my home</option>
+            <option>Bulk / corporate gifting</option>
+            <option>Wedding return gifts</option>
+            <option>Custom size or engraving</option>
+          </select>
+        </div>
+        <div class="field"><label for="c-msg">Details</label><textarea id="c-msg" name="message" placeholder="e.g. 6-inch Ganesha in antique finish, 30 pieces, needed by Diwali"></textarea></div>
+        <button class="btn btn-solid" type="submit">Send enquiry</button>
+        <p class="form-status" role="status" data-status></p>
+        <p class="form-note">Opens your mail app with the message ready — nothing is stored on this page.</p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<!-- ============ WORLD 2 · SOFT TOYS ============ -->
+<main class="world" id="world-toys">
+  <section class="hero">
+    <svg class="hero-blobs" viewBox="0 0 1200 620" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <circle cx="42" cy="66" r="86" fill="#FFC23C" opacity=".2"/>
+      <circle cx="1168" cy="556" r="120" fill="#8FD8FF" opacity=".22"/>
+      <circle cx="1046" cy="60" r="54" fill="#37C9A3" opacity=".22"/>
+    </svg>
+    <div class="wrap hero-inner">
+      <div class="hero-copy">
+        <span class="label">Soft toys for tiny humans</span>
+        <h1>Hugs, <span class="tint">delivered.</span></h1>
+        <p class="lede">Super-soft plush, stitched double at every seam and stuffed with hypoallergenic fibre. Machine washable, because we know exactly what happens to a favourite toy.</p>
+        <div class="hero-actions">
+          <a class="btn btn-solid" href="#" data-jump="shop">Meet the gang</a>
+          <a class="btn btn-ghost" href="#" data-jump="contact">Ask about gift wrap</a>
+        </div>
+        <div class="hero-facts">
+          <div><b>0–10</b><span>Years, all sizes</span></div>
+          <div><b>BIS</b><span>Safety tested</span></div>
+          <div><b>Washable</b><span>At 30°C, gentle</span></div>
+        </div>
+      </div>
+      <div class="hero-art"><span class="glow"></span><div id="hero-toys-art"></div></div>
+    </div>
+  </section>
+
+  <section class="section" data-sec="shop">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="rule"></span>
+        <span class="label">Say hello</span>
+        <h2>The KrystalKart cuddle crew</h2>
+        <p>Pick a friend by size — pocket pals for school bags, big squishy ones for the bed.</p>
+      </div>
+      <div class="grid" id="grid-toys"></div>
+    </div>
+  </section>
+
+  <section class="section section-alt" data-sec="story">
+    <div class="wrap stack" style="gap: var(--s5)">
+      <div class="section-head" style="margin-bottom:0">
+        <span class="rule"></span>
+        <span class="label">Our promise</span>
+        <h2>Built to survive being loved</h2>
+      </div>
+      <div class="features">
+        <div class="feature">
+          <svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M16 27S5 20 5 13a6 6 0 0 1 11-3 6 6 0 0 1 11 3c0 7-11 14-11 14z" fill="var(--accent)"/></svg>
+          <h3>Squish-tested plush</h3>
+          <p>Velvet-soft minky fabric that stays fluffy after wash number twenty.</p>
+        </div>
+        <div class="feature">
+          <svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M16 4l10 4v8c0 7-5 11-10 12C11 27 6 23 6 16V8z" fill="#37C9A3"/><path d="M12 16l3 3 6-6" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></svg>
+          <h3>No loose parts</h3>
+          <p>Embroidered eyes and noses on every toy under three years. Nothing to pull off.</p>
+        </div>
+        <div class="feature">
+          <svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><circle cx="16" cy="16" r="11" fill="#8FD8FF"/><path d="M9 17c3 4 11 4 14 0" stroke="#3B2742" stroke-width="2.2" stroke-linecap="round"/><circle cx="12" cy="13" r="1.8" fill="#3B2742"/><circle cx="20" cy="13" r="1.8" fill="#3B2742"/></svg>
+          <h3>Washable, honestly</h3>
+          <p>Cold machine wash, air dry, back in bed by evening. Colours do not run.</p>
+        </div>
+        <div class="feature">
+          <svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><rect x="5" y="12" width="22" height="15" rx="3" fill="#FFC23C"/><path d="M16 12v15M4 12h24" stroke="#3B2742" stroke-width="2"/><path d="M11 12c-1-5 5-6 5-1 0-5 6-4 5 1" stroke="#3B2742" stroke-width="2" fill="none"/></svg>
+          <h3>Free gift wrap</h3>
+          <p>Ribbon, a name tag and a little note in your handwriting. Just ask at checkout.</p>
+        </div>
+      </div>
+      <div class="tiles">
+        <a class="tile" href="#" data-jump="shop"><h3>Pocket size</h3><span>Up to 25 cm · from ₹499</span></a>
+        <a class="tile" href="#" data-jump="shop"><h3>Just-right size</h3><span>26–40 cm · from ₹749</span></a>
+        <a class="tile" href="#" data-jump="shop"><h3>Big squish</h3><span>41 cm and up · from ₹1,199</span></a>
+        <a class="tile" href="#" data-jump="shop"><h3>Newborn safe</h3><span>0–12 months · from ₹599</span></a>
+      </div>
+      <div class="quotes">
+        <blockquote class="quote"><p>“The unicorn has been washed eleven times and still looks new. That is a record in this house.”</p><cite>Priya S. — Mumbai</cite></blockquote>
+        <blockquote class="quote"><p>“Bought the big panda for my daughter's third birthday. It is bigger than she is and she loves it.”</p><cite>Rohan M. — Bengaluru</cite></blockquote>
+        <blockquote class="quote"><p>“Gift wrap was gorgeous and it arrived a day early. Ordering the bunny next.”</p><cite>Nikita B. — Jaipur</cite></blockquote>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" data-sec="contact">
+    <div class="wrap contact-grid">
+      <div class="contact-lines">
+        <div class="section-head" style="margin-bottom:0">
+          <span class="rule"></span>
+          <span class="label">Contact us</span>
+          <h2>Need help picking?</h2>
+          <p>Tell us how old they are and what they already love — we will suggest three toys and send real photos.</p>
+        </div>
+        <a class="contact-line" href="https://wa.me/919000000000">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 20l1.4-4A8 8 0 1 1 8 18.6z" stroke="var(--accent)" stroke-width="1.7"/></svg>
+          <span><b>WhatsApp</b>+91 90000 00000</span>
+        </a>
+        <a class="contact-line" href="mailto:hello@krystalkart.in">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="5" width="18" height="14" stroke="var(--accent)" stroke-width="1.7"/><path d="M3 7l9 6 9-6" stroke="var(--accent)" stroke-width="1.7"/></svg>
+          <span><b>Email</b>hello@krystalkart.in</span>
+        </a>
+        <div class="contact-line">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="var(--accent)" stroke-width="1.7"/><path d="M8 13c2 3 6 3 8 0" stroke="var(--accent)" stroke-width="1.7" stroke-linecap="round"/></svg>
+          <span><b>We reply</b>Every day, 10 am – 8 pm IST</span>
+        </div>
+      </div>
+      <form class="form" data-form="toys">
+        <div class="row">
+          <div class="field"><label for="t-name">Your name</label><input id="t-name" name="name" required autocomplete="name"></div>
+          <div class="field"><label for="t-phone">Phone or email</label><input id="t-phone" name="contact" required></div>
+        </div>
+        <div class="field">
+          <label for="t-age">Who is it for?</label>
+          <select id="t-age" name="interest">
+            <option>Newborn (0–12 months)</option>
+            <option>Toddler (1–3 years)</option>
+            <option>Little kid (4–7 years)</option>
+            <option>Big kid (8+) or a grown-up, no judgement</option>
+          </select>
+        </div>
+        <div class="field"><label for="t-msg">Anything else?</label><textarea id="t-msg" name="message" placeholder="e.g. She loves elephants, needs it gift wrapped by Saturday"></textarea></div>
+        <button class="btn btn-solid" type="submit">Send message</button>
+        <p class="form-status" role="status" data-status></p>
+        <p class="form-note">Opens your mail app with the message ready — nothing is stored on this page.</p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-foot">
+  <div class="wrap foot-grid">
+    <p>© 2026 KrystalKart · Handicraft metal idols &amp; soft toys · Made in India</p>
+    <div class="foot-links">
+      <button type="button" data-go="craft">Handicraft</button>
+      <button type="button" data-go="toys">Soft Toys</button>
+      <button type="button" id="reopen-doors">Switch worlds</button>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  /* -----------------------------------------------------------
+     Catalogue. Swap `img` from null to a photo URL/path and the
+     card renders the photograph instead of the drawn placeholder.
+     ----------------------------------------------------------- */
+  var CRAFT = [
+    { name: "Vighnaharta Ganesh",   spec: "Solid brass · 6 in",  price: "₹2,450", art: "ganesh",       badge: "Bestseller", img: null },
+    { name: "Meditating Buddha",    spec: "Antique finish · 5 in",        price: "₹1,890", art: "buddha",       badge: null,         img: null },
+    { name: "Nataraja, Dancing Shiva", spec: "Mirror polish · 9 in",      price: "₹4,750", art: "nataraja",     badge: "Signature",  img: null },
+    { name: "Krishna with Flute",   spec: "Solid brass · 7 in",           price: "₹2,980", art: "krishna",      img: null },
+    { name: "Radha Krishna Pair",   spec: "Antique finish · 8 in",        price: "₹3,650", art: "radhakrishna", badge: "Wedding gift", img: null },
+    { name: "Lakshmi on Lotus",     spec: "Solid brass · 6 in",           price: "₹2,760", art: "lakshmi",      img: null },
+    { name: "Hanuman with Gada",    spec: "Antique finish · 7 in",        price: "₹3,150", art: "hanuman",      img: null },
+    { name: "Vastu Kachua on Plate",spec: "Brass · 4 in with plate",      price: "₹1,150", art: "tortoise",     badge: "Vastu",      img: null },
+    { name: "Ambabari Elephant",    spec: "Hand-engraved · 5 in",         price: "₹2,290", art: "elephant",     img: null },
+    { name: "Panch Aarti Deepak",   spec: "Five-wick brass diya",         price: "₹990",   art: "diya",         badge: "Festival",   img: null }
+  ];
+
+  var TOYS = [
+    { name: "Cuddle Bear",          spec: "40 cm · 1–8 yrs",  price: "₹899",   art: "bear",     badge: "Bestseller", img: null },
+    { name: "Sprinkle the Unicorn", spec: "45 cm · 3–10 yrs", price: "₹1,199", art: "unicorn",  badge: "New",        img: null },
+    { name: "Momo the Panda",       spec: "35 cm · 1–8 yrs",  price: "₹849",   art: "panda",    img: null },
+    { name: "Hoppy Bunny",          spec: "30 cm · 0–5 yrs",  price: "₹749",   art: "bunny",    badge: "Newborn safe", img: null },
+    { name: "Toffee the Giraffe",   spec: "50 cm · 2–10 yrs", price: "₹1,349", art: "giraffe",  badge: "Big squish", img: null },
+    { name: "Bubbles the Elephant", spec: "38 cm · 0–6 yrs",  price: "₹949",   art: "ellie",    img: null },
+    { name: "Rex the Baby Dino",    spec: "32 cm · 2–9 yrs",  price: "₹899",   art: "dino",     img: null },
+    { name: "Pip the Penguin",      spec: "28 cm · 1–7 yrs",  price: "₹699",   art: "penguin",  badge: "Pocket size", img: null },
+    { name: "Whiskers the Kitty",   spec: "30 cm · 1–8 yrs",  price: "₹799",   art: "kitty",    img: null },
+    { name: "Coco the Puppy",       spec: "34 cm · 1–8 yrs",  price: "₹879",   art: "puppy",    img: null }
+  ];
+
+  /* ---------------- brass idol drawings ----------------
+     Placeholder artwork. Set `img` on a product to swap in a photo.
+     Overlapping brass shapes would merge into one silhouette, so every
+     part is laid down over a ground-coloured underlay first.        */
+  var uid = 0;
+
+  function brass(shapeName, size, withArch) {
+    var id = "g" + (++uid);
+    var G  = "url(#" + id + ")";
+    var GR = "var(--ground)";
+
+    function disc(cx, cy, r) {
+      return '<circle cx="' + cx + '" cy="' + cy + '" r="' + (r + 3) + '" fill="' + GR + '"/>' +
+             '<circle cx="' + cx + '" cy="' + cy + '" r="' + r + '" fill="' + G + '"/>';
+    }
+    function limb(d, w) {
+      return '<path d="' + d + '" stroke="' + GR + '" stroke-width="' + (w + 6) + '" fill="none" stroke-linecap="round"/>' +
+             '<path d="' + d + '" stroke="' + G + '" stroke-width="' + w + '" fill="none" stroke-linecap="round"/>';
+    }
+    function shape(d) {
+      return '<path d="' + d + '" fill="' + GR + '" stroke="' + GR + '" stroke-width="6" stroke-linejoin="round"/>' +
+             '<path d="' + d + '" fill="' + G + '"/>';
+    }
+
+    var arch = withArch
+      ? '<path d="M100 4c40 0 68 30 68 70v122H32V74c0-40 28-70 68-70z" fill="none" stroke="' + G + '" stroke-width="1.6" opacity=".5"/>' +
+        '<path d="M100 18c32 0 54 24 54 58v118H46V76c0-34 22-58 54-58z" fill="none" stroke="' + G + '" stroke-width="1" opacity=".28"/>'
+      : "";
+
+    var lotus = '<ellipse cx="100" cy="172" rx="50" ry="13" fill="' + G + '"/>' +
+                '<path d="M50 172q13-16 25 0M75 172q13-18 25 0M100 172q13-18 25 0M125 172q13-16 25 0" fill="' + G + '" opacity=".9"/>';
+    var plinth = '<ellipse cx="100" cy="178" rx="40" ry="11" fill="' + G + '" stroke="' + GR + '" stroke-width="4"/>';
+    var bell   = "M100 88c-16 0-22 12-24 30-3 24-9 40-13 54h74c-4-14-10-30-13-54-2-18-8-30-24-30z";
+    var torso  = "M74 146c0-40 10-56 26-56s26 16 26 56z";
+    var lap    = "M52 166c0-18 22-28 48-28s48 10 48 28z";
+    var eyes   = '<path d="M88 78h9M103 78h9" stroke="' + GR + '" stroke-width="2.6" stroke-linecap="round"/>';
+
+    var flames = "";
+    for (var i = 0; i < 12; i++) {
+      var a = (i / 12) * Math.PI * 2;
+      flames += '<circle cx="' + (100 + Math.cos(a) * 66).toFixed(1) + '" cy="' + (94 + Math.sin(a) * 66).toFixed(1) +
+                '" r="5.5" fill="' + G + '"/>';
+    }
+
+    var S = {
+      ganesh:
+        lotus +
+        '<ellipse cx="62" cy="88" rx="17" ry="23" fill="' + G + '" stroke="' + GR + '" stroke-width="5"/>' +
+        '<ellipse cx="138" cy="88" rx="17" ry="23" fill="' + G + '" stroke="' + GR + '" stroke-width="5"/>' +
+        shape("M62 168c0-44 14-62 38-62s38 18 38 62z") +
+        shape("M79 68q3-30 21-30t21 30z") + disc(100, 32, 5) +
+        disc(100, 82, 26) +
+        limb("M100 98c1 15-4 27-16 31-8 3-13-2-11-9", 10) +
+        eyes,
+
+      buddha:
+        lotus + shape(torso) + shape(lap) +
+        limb("M78 122q22 22 44 0", 7) +
+        '<ellipse cx="100" cy="142" rx="15" ry="7" fill="' + G + '" stroke="' + GR + '" stroke-width="4"/>' +
+        disc(100, 74, 24) + disc(100, 48, 9) +
+        '<path d="M86 72q6 5 12 0M102 72q6 5 12 0" stroke="' + GR + '" stroke-width="2.4" fill="none" stroke-linecap="round"/>' +
+        '<path d="M94 86q6 4 12 0" stroke="' + GR + '" stroke-width="2.2" fill="none" stroke-linecap="round"/>',
+
+      nataraja:
+        plinth +
+        '<circle cx="100" cy="94" r="66" fill="none" stroke="' + G + '" stroke-width="3" opacity=".85"/>' + flames +
+        limb("M94 124l-16 42", 10) + limb("M108 122q26 8 28 30", 10) +
+        shape("M100 58c-11 0-16 9-17 20l-5 26 10 22h24l8-22-5-26c-1-11-4-20-15-20z") +
+        limb("M86 76L56 90", 7) + limb("M114 76l30 14", 7) +
+        limb("M88 88L62 116", 7) + limb("M112 88l26 26", 7) +
+        disc(100, 44, 13) + shape("M87 40q2-22 13-22t13 22z"),
+
+      krishna:
+        plinth + shape(bell) +
+        limb("M86 90q-12 10-10 20", 6) + limb("M114 90q12 10 10 20", 6) +
+        '<g transform="rotate(-13 100 106)"><rect x="54" y="102" width="92" height="13" rx="6.5" fill="' + GR + '"/>' +
+        '<rect x="56" y="104" width="88" height="8" rx="4" fill="' + G + '"/>' +
+        '<circle cx="86" cy="108" r="1.7" fill="' + GR + '"/><circle cx="98" cy="108" r="1.7" fill="' + GR + '"/>' +
+        '<circle cx="110" cy="108" r="1.7" fill="' + GR + '"/></g>' +
+        disc(100, 66, 17) + shape("M84 56q2-24 16-24t16 24z") +
+        '<path d="M100 40c7-13 17-16 17-16s-2 14-12 21z" fill="' + G + '" stroke="' + GR + '" stroke-width="3"/>',
+
+      radhakrishna:
+        '<ellipse cx="100" cy="178" rx="54" ry="12" fill="' + G + '" stroke="' + GR + '" stroke-width="4"/>' +
+        '<g transform="translate(-26 10) scale(.9)">' + shape(bell) + disc(100, 66, 17) + shape("M84 56q2-24 16-24t16 24z") + '</g>' +
+        '<g transform="translate(29 0)">' + shape(bell) + disc(100, 66, 17) + shape("M84 56q2-24 16-24t16 24z") +
+        '<path d="M100 40c7-13 17-16 17-16s-2 14-12 21z" fill="' + G + '" stroke="' + GR + '" stroke-width="3"/></g>',
+
+      lakshmi:
+        '<circle cx="100" cy="76" r="47" fill="none" stroke="' + G + '" stroke-width="1.6" opacity=".5"/>' +
+        lotus + shape(torso) + shape(lap) +
+        limb("M84 106q-16 6-21 23", 6) + limb("M116 106q16 6 21 23", 6) +
+        disc(60, 132, 9) + disc(140, 132, 9) +
+        disc(100, 74, 21) + shape("M83 60q3-28 17-28t17 28z") + eyes,
+
+      hanuman:
+        plinth +
+        shape(bell) +
+        limb("M84 92q-16 2-18-14", 6) +
+        shape("M137 78h10v62h-10z") + disc(142, 68, 13) +
+        limb("M114 94q18-2 24-16", 6) +
+        disc(100, 66, 18) + shape("M83 58q3-26 17-26t17 26z") + eyes,
+
+      tortoise:
+        '<ellipse cx="100" cy="116" rx="72" ry="52" fill="' + G + '" opacity=".28"/>' +
+        '<ellipse cx="100" cy="70" rx="17" ry="19" fill="' + G + '" stroke="' + GR + '" stroke-width="4"/>' +
+        '<ellipse cx="46" cy="86" rx="16" ry="12" fill="' + G + '" stroke="' + GR + '" stroke-width="4" transform="rotate(-35 46 86)"/>' +
+        '<ellipse cx="154" cy="86" rx="16" ry="12" fill="' + G + '" stroke="' + GR + '" stroke-width="4" transform="rotate(35 154 86)"/>' +
+        '<ellipse cx="46" cy="150" rx="16" ry="12" fill="' + G + '" stroke="' + GR + '" stroke-width="4" transform="rotate(35 46 150)"/>' +
+        '<ellipse cx="154" cy="150" rx="16" ry="12" fill="' + G + '" stroke="' + GR + '" stroke-width="4" transform="rotate(-35 154 150)"/>' +
+        '<ellipse cx="100" cy="118" rx="58" ry="44" fill="' + G + '" stroke="' + GR + '" stroke-width="4"/>' +
+        '<path d="M100 78v80M64 98l72 40M136 98l-72 40" stroke="' + GR + '" stroke-width="2" opacity=".5"/>' +
+        '<ellipse cx="100" cy="118" rx="22" ry="17" fill="none" stroke="' + GR + '" stroke-width="2" opacity=".5"/>',
+
+      elephant:
+        '<ellipse cx="96" cy="170" rx="62" ry="10" fill="' + G + '" opacity=".35"/>' +
+        shape("M58 128h18v38H58zM104 128h18v38h-18z") +
+        '<ellipse cx="90" cy="112" rx="48" ry="36" fill="' + G + '" stroke="' + GR + '" stroke-width="4"/>' +
+        limb("M42 96q-16 4-14 22", 5) +
+        disc(142, 94, 27) +
+        '<ellipse cx="132" cy="96" rx="17" ry="22" fill="' + G + '" stroke="' + GR + '" stroke-width="3" opacity=".9"/>' +
+        limb("M160 106q14 22 4 40-4 8-12 4", 12) +
+        limb("M152 116l16 12", 5) +
+        '<circle cx="150" cy="84" r="3" fill="' + GR + '"/>',
+
+      diya:
+        '<ellipse cx="100" cy="176" rx="44" ry="11" fill="' + G + '"/>' +
+        shape("M74 172h52l-8-18H82z") + shape("M93 118h14v38H93z") +
+        shape("M52 100q48 34 96 0-6 28-48 28t-48-28z") +
+        '<path d="M100 92c9-10 7-26-5-36 3 13-11 15-9 28 1 5 7 8 14 8z" fill="var(--accent)"/>' +
+        '<circle cx="60" cy="104" r="5" fill="var(--accent)"/><circle cx="140" cy="104" r="5" fill="var(--accent)"/>'
+    };
+
+    return '<svg viewBox="0 0 200 200" role="img" aria-label="' + shapeName + ' idol in brass" style="width:' + (size || "78%") + ';height:auto">' +
+      '<defs><linearGradient id="' + id + '" x1="0" y1="0" x2="1" y2="1">' +
+      '<stop offset="0" stop-color="var(--metal-a)"/><stop offset=".4" stop-color="var(--metal-c)"/>' +
+      '<stop offset=".62" stop-color="var(--metal-b)"/><stop offset="1" stop-color="var(--metal-a)"/>' +
+      '</linearGradient></defs>' + arch + (S[shapeName] || S.ganesh) + '</svg>';
+  }
+
+  /* ---------------- soft toy drawings ---------------- */
+  var TOY_SPEC = {
+    bear:    { body: "#C98A5A", belly: "#F3D8BC", ear: "round" },
+    unicorn: { body: "#F2A9DA", belly: "#FFE6F6", ear: "pointy", extra: "horn" },
+    panda:   { body: "#F4F1EC", belly: "#FFFFFF", ear: "round", earDark: true, patch: true },
+    bunny:   { body: "#FFD3E2", belly: "#FFF2F7", ear: "long" },
+    giraffe: { body: "#FFC94F", belly: "#FFEBC0", ear: "pointy", extra: "spots" },
+    ellie:   { body: "#A9C6F5", belly: "#E4EEFF", ear: "big", extra: "trunk", shade: "#8AAFEA" },
+    dino:    { body: "#5FD3A8", belly: "#CFF5E7", ear: "none", extra: "spikes" },
+    penguin: { body: "#4B5A78", belly: "#FFFFFF", ear: "none", extra: "beak" },
+    kitty:   { body: "#C7B6E8", belly: "#F0E9FB", ear: "pointy", extra: "whiskers" },
+    puppy:   { body: "#E7B98C", belly: "#FFF0DC", ear: "flop" }
+  };
+
+  function toy(kind, size) {
+    var c = TOY_SPEC[kind] || TOY_SPEC.bear;
+    var ink = "#3B2742", s = "";
+
+    /* ears sit behind the head */
+    if (c.ear === "round") {
+      var eb = c.earDark ? ink : c.body;
+      s += '<circle cx="58" cy="52" r="20" fill="' + eb + '"/><circle cx="142" cy="52" r="20" fill="' + eb + '"/>';
+      if (!c.earDark) s += '<circle cx="58" cy="52" r="11" fill="' + c.belly + '"/><circle cx="142" cy="52" r="11" fill="' + c.belly + '"/>';
+    } else if (c.ear === "long") {
+      s += '<ellipse cx="74" cy="32" rx="12" ry="32" fill="' + c.body + '" transform="rotate(-12 74 32)"/>' +
+           '<ellipse cx="126" cy="32" rx="12" ry="32" fill="' + c.body + '" transform="rotate(12 126 32)"/>' +
+           '<ellipse cx="74" cy="34" rx="5.5" ry="22" fill="' + c.belly + '" transform="rotate(-12 74 34)"/>' +
+           '<ellipse cx="126" cy="34" rx="5.5" ry="22" fill="' + c.belly + '" transform="rotate(12 126 34)"/>';
+    } else if (c.ear === "pointy") {
+      s += '<path d="M60 66L58 26l32 16z" fill="' + c.body + '"/><path d="M140 66l2-40-32 16z" fill="' + c.body + '"/>';
+    } else if (c.ear === "flop") {
+      s += '<ellipse cx="50" cy="100" rx="14" ry="30" fill="' + c.body + '" transform="rotate(12 50 100)"/>' +
+           '<ellipse cx="150" cy="100" rx="14" ry="30" fill="' + c.body + '" transform="rotate(-12 150 100)"/>';
+    } else if (c.ear === "big") {
+      s += '<ellipse cx="44" cy="94" rx="21" ry="27" fill="' + c.body + '"/><ellipse cx="156" cy="94" rx="21" ry="27" fill="' + c.body + '"/>' +
+           '<ellipse cx="42" cy="96" rx="11" ry="15" fill="' + (c.shade || c.belly) + '"/><ellipse cx="158" cy="96" rx="11" ry="15" fill="' + (c.shade || c.belly) + '"/>';
+    }
+    if (c.extra === "spikes") {
+      s += '<path d="M72 58l0-18 14 12zM100 44l4-20 12 16zM128 58l16-14 0 18z" fill="#2FB98D"/>';
+    }
+    if (c.extra === "spots") {
+      s += '<path d="M96 22l0 22" stroke="' + c.body + '" stroke-width="7" stroke-linecap="round"/>' +
+           '<path d="M112 22l0 22" stroke="' + c.body + '" stroke-width="7" stroke-linecap="round"/>' +
+           '<circle cx="96" cy="20" r="7" fill="#B98523"/><circle cx="112" cy="20" r="7" fill="#B98523"/>';
+    }
+
+    /* body */
+    s += '<ellipse cx="100" cy="150" rx="52" ry="40" fill="' + c.body + '"/>' +
+         '<ellipse cx="100" cy="157" rx="31" ry="27" fill="' + c.belly + '"/>' +
+         '<circle cx="46" cy="134" r="16" fill="' + c.body + '"/><circle cx="154" cy="134" r="16" fill="' + c.body + '"/>' +
+         '<ellipse cx="74" cy="184" rx="19" ry="12" fill="' + c.body + '"/><ellipse cx="126" cy="184" rx="19" ry="12" fill="' + c.body + '"/>' +
+         '<ellipse cx="74" cy="184" rx="10" ry="6" fill="' + c.belly + '"/><ellipse cx="126" cy="184" rx="10" ry="6" fill="' + c.belly + '"/>';
+
+    if (c.extra === "spots" || kind === "giraffe") {
+      s += '<circle cx="80" cy="140" r="8" fill="#D99C1E" opacity=".55"/><circle cx="124" cy="132" r="6" fill="#D99C1E" opacity=".55"/>';
+    }
+
+    /* head */
+    s += '<circle cx="100" cy="88" r="45" fill="' + c.body + '"/>';
+    if (c.patch) {
+      s += '<ellipse cx="80" cy="80" rx="14" ry="16" fill="' + ink + '" transform="rotate(-16 80 80)"/>' +
+           '<ellipse cx="120" cy="80" rx="14" ry="16" fill="' + ink + '" transform="rotate(16 120 80)"/>';
+    }
+    if (c.extra === "horn") {
+      s += '<path d="M74 50q-18 16-14 42" stroke="#8FD8FF" stroke-width="9" fill="none" stroke-linecap="round"/>' +
+           '<path d="M82 42q-22 16-18 46" stroke="#37C9A3" stroke-width="9" fill="none" stroke-linecap="round"/>' +
+           '<path d="M90 38q-24 18-20 50" stroke="#FFC23C" stroke-width="9" fill="none" stroke-linecap="round"/>' +
+           '<path d="M100 12l11 30H89z" fill="#FFC23C"/><path d="M92 30h16M95 22h11" stroke="#E5A31A" stroke-width="3"/>';
+    }
+    if (c.extra === "trunk") {
+      s += '<path d="M100 100q6 36-6 50-7 8-15 2" stroke="' + (c.shade || c.body) + '" stroke-width="21" fill="none" stroke-linecap="round"/>' +
+           '<path d="M84 118h32M88 134h24" stroke="' + c.belly + '" stroke-width="2.5" stroke-linecap="round" opacity=".65"/>';
+    } else {
+      s += '<ellipse cx="100" cy="104" rx="23" ry="18" fill="' + c.belly + '"/>';
+    }
+    if (c.extra === "beak") {
+      s += '<path d="M100 92l16 14-16 12-16-12z" fill="#FF9A3C"/>';
+    } else if (c.extra !== "trunk") {
+      s += '<ellipse cx="100" cy="97" rx="8" ry="6" fill="' + ink + '"/>' +
+           '<path d="M100 103v5M100 108q-7 7-13 0M100 108q7 7 13 0" stroke="' + ink + '" stroke-width="3" fill="none" stroke-linecap="round"/>';
+    }
+    if (c.extra === "whiskers") {
+      s += '<path d="M74 100H50M74 106l-22 8M126 100h24M126 106l22 8" stroke="' + ink + '" stroke-width="2.4" stroke-linecap="round" opacity=".7"/>';
+    }
+    /* eyes last so nothing covers them */
+    s += '<circle cx="80" cy="84" r="7" fill="' + ink + '"/><circle cx="120" cy="84" r="7" fill="' + ink + '"/>' +
+         '<circle cx="82.5" cy="81.5" r="2.4" fill="#fff"/><circle cx="122.5" cy="81.5" r="2.4" fill="#fff"/>' +
+         '<circle cx="62" cy="102" r="8" fill="#FF7FAE" opacity=".45"/><circle cx="138" cy="102" r="8" fill="#FF7FAE" opacity=".45"/>';
+
+    return '<svg viewBox="0 0 200 200" role="img" aria-label="' + kind + ' soft toy" style="width:' + (size || "82%") + ';height:auto">' + s + '</svg>';
+  }
+
+  /* ---------------- render cards ---------------- */
+  function cardHTML(p, world) {
+    var art = p.img
+      ? '<img src="' + p.img + '" alt="' + p.name + '" loading="lazy">'
+      : (world === "craft" ? brass(p.art) : toy(p.art));
+    return '<article class="card">' +
+      (p.badge ? '<span class="badge">' + p.badge + '</span>' : "") +
+      '<figure>' + art + '</figure>' +
+      '<h3>' + p.name + '</h3>' +
+      '<div class="meta"><span class="spec">' + p.spec + '</span><span class="price">' + p.price + '</span></div>' +
+      '</article>';
+  }
+
+  document.getElementById("grid-craft").innerHTML = CRAFT.map(function (p) { return cardHTML(p, "craft"); }).join("");
+  document.getElementById("grid-toys").innerHTML  = TOYS.map(function (p) { return cardHTML(p, "toys"); }).join("");
+  document.getElementById("hero-craft-art").innerHTML = brass("ganesh", "100%", true);
+  document.getElementById("hero-toys-art").innerHTML  = toy("bear", "100%");
+  document.getElementById("door-art-craft").innerHTML = brass("ganesh", "100%", true);
+  document.getElementById("door-art-toys").innerHTML  = toy("bear", "100%");
+
+  var tileFriends = ["penguin", "bunny", "giraffe", "panda"];
+  document.querySelectorAll("#world-toys .tile").forEach(function (t, i) {
+    t.insertAdjacentHTML("beforeend", '<span class="tile-art" aria-hidden="true">' + toy(tileFriends[i % 4], "100%") + "</span>");
+  });
+
+  /* ---------------- world switching ---------------- */
+  var root = document.documentElement;
+  var doors = document.getElementById("doors");
+  var worlds = { craft: document.getElementById("world-craft"), toys: document.getElementById("world-toys") };
+  var switchBtns = document.querySelectorAll(".switch button");
+
+  function setWorld(name, scroll) {
+    root.setAttribute("data-world", name);
+    worlds.craft.classList.toggle("is-active", name === "craft");
+    worlds.toys.classList.toggle("is-active", name === "toys");
+    switchBtns.forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.go === name)); });
+    try { localStorage.setItem("kk-world", name); } catch (e) {}
+    if (scroll !== false) window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function openDoors(open) {
+    if (open) { doors.removeAttribute("hidden"); }
+    else { doors.setAttribute("hidden", ""); }
+    document.body.style.overflow = open ? "hidden" : "";
+  }
+
+  document.addEventListener("click", function (e) {
+    var go = e.target.closest("[data-go]");
+    if (go) {
+      var fromDoor = go.classList.contains("door");
+      setWorld(go.dataset.go, !fromDoor);
+      if (fromDoor) openDoors(false);
+      return;
+    }
+    var jump = e.target.closest("[data-jump]");
+    if (jump) {
+      e.preventDefault();
+      var active = worlds[root.getAttribute("data-world")];
+      var target = active.querySelector('[data-sec="' + jump.dataset.jump + '"]');
+      if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+      return;
+    }
+    if (e.target.closest("#reopen-doors")) openDoors(true);
+  });
+
+  /* ?world=craft / ?world=toys deep-links straight past the chooser */
+  var param = new URLSearchParams(window.location.search).get("world");
+  var saved = null;
+  try { saved = localStorage.getItem("kk-world"); } catch (e) {}
+  var start = (param === "craft" || param === "toys") ? param
+            : (saved === "craft" || saved === "toys") ? saved : null;
+  setWorld(start || "craft", false);
+  openDoors(!start);
+
+  /* ---------------- enquiry forms ---------------- */
+  document.querySelectorAll(".form").forEach(function (form) {
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var d = new FormData(form);
+      var which = form.dataset.form === "craft" ? "Handicraft" : "Soft Toys";
+      var body = "Name: " + (d.get("name") || "") + "\n" +
+                 "Contact: " + (d.get("contact") || "") + "\n" +
+                 "Interest: " + (d.get("interest") || "") + "\n\n" +
+                 (d.get("message") || "");
+      form.querySelector("[data-status]").textContent = "Opening your mail app — send the message and we will reply the same day.";
+      window.location.href = "mailto:hello@krystalkart.in?subject=" +
+        encodeURIComponent("KrystalKart " + which + " enquiry") + "&body=" + encodeURIComponent(body);
+    });
+  });
+})();
+</script>
+</body>
+</html>
